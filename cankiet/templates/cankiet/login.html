@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login form</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head> 
+<body>
+    
+<div class="container">
+    <h2>Login</h2>
+   
+    <form id="loginForm" action="">
+        
+        <div class="form-group">
+            <input id="username" type="text" required>
+            <label for="username">Username</label>
+        </div>
+
+        <div class="form-group">
+            <input id="password" type="password" required>
+            <label for="password">Password</label>
+        </div>
+
+        <p><input type="checkbox">Remember Me <a href="#">Forget Password</a></p>
+
+        <input id="btn" type="submit" value="Login" disabled>
+       
+    </form>
+</div>
+
+<script src="{% static 'js/login.js'%}"></script>
+</body>
+</html>
