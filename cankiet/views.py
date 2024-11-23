@@ -6,3 +6,5 @@ def index2(request):
 def login(request):
     return render(request, 'cankiet/login.html')    
  
+def orders(request):
+    return render(request, 'cankiet/orders.html')  
