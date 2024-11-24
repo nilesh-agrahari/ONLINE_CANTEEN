@@ -1,10 +1,13 @@
 from django.shortcuts import render
-
+from .models import User
 def index2(request):
-    return render(request, 'cankiet/index2.html')
+    user=User.objects.all()
+    return render(request, 'cankiet/index2.html', {'user': user})
 
 def login(request):
-    return render(request, 'cankiet/login.html')    
+    user=User.objects.all()
+    return render(request, 'cankiet/login.html', {'user': user})    
  
 def orders(request):
-    return render(request, 'cankiet/orders.html')  
+    user=User.objects.all()
+    return render(request, 'cankiet/orders.html', {'user': user} )  
