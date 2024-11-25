@@ -35,7 +35,6 @@ class Items(models.Model):
     price=models.IntegerField()
     c_no=models.CharField(max_length=12)
     availability=models.CharField(max_length=1)
-    category=models.CharField(max_length=20)
 
     def __str__(self):
         return self.item
@@ -45,14 +44,21 @@ class Canteen(models.Model):
     c_name=models.CharField(max_length=20)
 
     def __str__(self):
-        return self.c_name
+        return f"{self.c_name}  {self.c_no}"
     
 class Order(models.Model):
     o_no = models.AutoField(primary_key=True)  # Auto-incrementing primary key
-    o_date = models.DateTimeField(default=now)  # Automatically stores the current date and time
-    i_no = models.ForeignKey('Item', on_delete=models.CASCADE)  # Foreign key to Item table
-    u_id = models.ForeignKey('User', on_delete=models.CASCADE)  # Foreign key to User table
-    c_no = models.ForeignKey('Canteen', on_delete=models.CASCADE)  # Foreign key to Canteen table
+    o_date = models.DateTimeField(default=now)  # Automatically stores current date and time
+    u_id = models.ForeignKey(User, on_delete=models.CASCADE)  # Foreign key to User table
+    c_no = models.ForeignKey(Canteen, on_delete=models.CASCADE)  # Foreign key to Canteen table
+    item = models.ForeignKey(Items, on_delete=models.CASCADE)  # Single-valued attribute (ForeignKey to Item)
+    quantity = models.PositiveIntegerField(default=1)  # Quantity of the item in the order
+    total_amount = models.IntegerField(default=0)  # Store the total amount
+
+    def save(self, *args, **kwargs):
+        # Automatically calculate the total_amount before saving
+        self.total_amount = self.item.price * self.quantity
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Order {self.o_no} - {self.o_date.strftime('%Y-%m-%d %H:%M:%S')}"
+        return f"{self.o_date}  Order {self.o_no} - {self.item.item} ({self.quantity} pcs) - Total: ₹{self.total_amount}"
