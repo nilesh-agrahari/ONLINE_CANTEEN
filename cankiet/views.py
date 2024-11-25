@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
-from .models import User
+from .models import User,Items
 def index2(request):
     user=User.objects.all()
     # Check if 'user_id' exists in the session
@@ -22,7 +22,8 @@ def logout(request):
  
 def orders(request):
     user=User.objects.all()
-    return render(request, 'cankiet/orders.html', {'user': user} ) 
+    food=Items.objects.all()
+    return render(request, 'cankiet/orders.html', {'user': user,'food':food}) 
 
 def login_check(request):
     if request.method == 'POST':

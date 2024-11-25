@@ -31,6 +31,7 @@ class User(models.Model):
 class Items(models.Model):
     i_no=models.CharField(max_length=12)
     item=models.CharField(max_length=20)
+    i_image=models.ImageField(upload_to='images/')
     price=models.IntegerField()
     c_no=models.CharField(max_length=12)
     availability=models.CharField(max_length=1)
