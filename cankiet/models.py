@@ -13,7 +13,7 @@ class User(models.Model):
         ('Mba','MBA'),
     ]
 
-    u_id=models.CharField(max_length=12)
+    u_id=models.CharField(max_length=12,)
     name=models.CharField(max_length=30)
     phone=models.CharField(max_length=10)
     password=models.CharField(max_length=20)
@@ -27,4 +27,15 @@ class User(models.Model):
 
     def __str__(self):
         return self.u_id
+
+class Items(models.Model):
+    i_no=models.CharField(max_length=12)
+    item=models.CharField(max_length=20)
+    price=models.IntegerField()
+    c_no=models.CharField(max_length=12)
+    availability=models.CharField(max_length=1)
+    category=models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.item
 
