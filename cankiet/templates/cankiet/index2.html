@@ -17,12 +17,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.fancybox.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/zerogrid.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/loader.css'%}">
-<<<<<<< HEAD
-    <link rel="shortcut icon" href="{% static 'images/cankiet_logo.png'%}">
-=======
-    <link rel="shortcut icon" href="{% static 'images/cankiet-logo.webp'%}">
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
->>>>>>> 8b4d92cac7d97e55494b485cc9a52609041bf431
 </head>
 <body>
 <!--Loader-->
@@ -66,7 +61,7 @@
                    <li class="dropdown active">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
                    </li>
-                   <li><a href="">Canteens</a></li>
+                   <li><a href="{% url 'canteens' %}">Canteens</a></li>
                    
                      <li class="dropdown">
                      <a data-toggle="dropdown" href="#" class="dropdown-toggle">gallery</a>
@@ -80,7 +75,7 @@
                    </div>
                    <div class="navbar-right-1">
                    <ul class="nav navbar-nav  navbar-right"> 
-                   <li><a href="{% url 'orders'%}">Menu</a></li>
+                   <li><a href="{% url 'orders'%}">orders</a></li>
                    <li><a href="blog.html">blog</a></li>
                    <li><a href="{% url 'logout'%}">Logout</a></li>
                  </ul>
