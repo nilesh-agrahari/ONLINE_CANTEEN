@@ -155,6 +155,14 @@ body,html{
 	height:100%;
 	width:100%;
 }
+.title{
+  font-size: xx-small;
+  background-color: #55acee;
+}
+
+.class2{
+  font-size: 200px;
+}
 ol, ul{
 	margin:0;
 	padding:0;
@@ -336,6 +344,8 @@ hr{
   padding:12px 30px;
   letter-spacing:0.5px;
 }
+
+
 .btn-common-white:hover, .btn-common-white:focus{
 	background: #fff;
 	color:#e25111;	
