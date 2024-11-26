@@ -10,7 +10,8 @@ urlpatterns = [
     path('check/', views.login_check, name='check'),
     path('logout/', views.logout, name='logout'),
     path('canteens/', views.canteens, name='canteens'),
-    path('cart/', views.cart, name='cart'),
-    
+    path('<str:c_no>/menu/', views.menu, name='menu'),
+    path('<str:c_no>/cart/', views.cart, name='cart'),
+    path('<str:c_no>/confirmation/', views.confirmation, name='confirmation'),
 
 ]

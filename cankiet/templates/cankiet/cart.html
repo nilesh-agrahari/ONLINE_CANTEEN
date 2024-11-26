@@ -1,11 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your order is ready</title>
+    <title>Cart</title>
+    <style>
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
-    <h1>cart page</h1>
+    <!-- Navbar -->
+    <div class="navbar">
+        Welcome, {{ request.session.user.name }}!
+    </div>
+
+    <!-- Cart Table -->
+    <h1 style="text-align: center;">Your Cart</h1>
+    <form method="post" action="{% url 'confirmation' canteen.c_no %}">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ items.item }}</td>
+                    <td>{{ items.price }}</td>
+                    <td>{{ quantity }}</td>
+                    <td>{{ total}}</td>
+                    <!-- Hidden fields to send data to the server -->
+                    <input type="hidden" name="i_no" value="{{ items.i_no }}">
+                    <input type="hidden" name="quantity" value="{{ quantity }}">
+                    <input type="hidden" name="total" value="{{ total }}">
+                </tr>
+            </tbody>
+        </table>
+        <h3 style="text-align: center;">Total Amount: ₹{{ total}}</h3>
+
+        <!-- Submit Button -->
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="submit">Place Order</button>
+        </div>
+    </form>
 </body>
 </html>

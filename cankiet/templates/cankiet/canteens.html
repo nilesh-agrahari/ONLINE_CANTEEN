@@ -32,66 +32,30 @@
           <span class="visually-hidden">Next</span>
         </button>
     </div>
-      <div class="maincontainer m-3 p-3  d-flex justify-content-between ">
-      <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
+    <div class="maincontainer m-3 p-3  d-flex justify-content-center ">
+        <div class="container">
+            <div class="row mx-auto">
+
+                {% for can in canteen %}
+            
+
+                <div class="col-sm-4">
                 <!-- Card -->
                 <div class="card card-custom">
                     <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Card image">
                     <div class="card-body">
-                        <h5 class="card-title">Main Canteen</h5>
-                        
-                        <a href="#" class="btn btn-custom">Learn More</a>
+                        <h5 class="card-title">{{can.c_name}}</h5>
+                        <a href="{% url 'menu' can.c_no %}" class="btn btn-custom">See menu</a>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <!-- Card -->
-                <div class="card card-custom">
-                    <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Card image">
-                    <div class="card-body">
-                        <h5 class="card-title">Healthy Hut</h5>
-                        
-                        <a href="#" class="btn btn-custom">Learn More</a>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <!-- Card -->
-                <div class="card card-custom">
-                    <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Card image">
-                    <div class="card-body">
-                        <h5 class="card-title">MCA Canteen Wala</h5>
-                        
-                        <a href="#" class="btn btn-custom">Learn More</a>
-                    </div>
-                </div>
-            </div>
+                        </div>
+                {% endfor %}
+            
+            
         
-            <div class="col-sm-4">
-                <!-- Card -->
-                <div class="card card-custom">
-                    <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Card image">
-                    <div class="card-body">
-                        <h5 class="card-title">Btech Canteen wala</h5>
-                        
-                        <a href="#" class="btn btn-custom">Learn More</a>
-                    </div>
-                </div>
+            
             </div>
-            <div class="col-sm-4">
-                <!-- Card -->
-                <div class="card card-custom">
-                    <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Card image">
-                    <div class="card-body">
-                        <h5 class="card-title">Healthy Hut</h5>
-                        
-                        <a href="#" class="btn btn-custom">Learn More</a>
-                    </div>
-                </div>
         </div>
-    </div>
     </div>
 
 </body>

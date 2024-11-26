@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.hashers import check_password
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate,login
+from django.utils.timezone import now
+import uuid
 from .forms import LoginForm
-from .models import User,Items
+from .models import User,Items,Canteen,Order
 def index2(request):
     user=User.objects.all()
     # Check if 'user_id' exists in the session
@@ -23,18 +25,60 @@ def logout(request):
 def orders(request):
     user=User.objects.all()
     food=Items.objects.all()
+
     return render(request, 'cankiet/orders.html', {'user': user,'food':food})
 
-def canteens(request):
-    user=User.objects.all()
+def canteens(request,):
+    canteen=Canteen.objects.all()
+    return render(request, 'cankiet/canteens.html', {'canteen':canteen,})
 
-    return render(request, 'cankiet/canteens.html', {'user': user})
+def menu(request,c_no):
+     # Fetch the selected canteen
+    canteen = get_object_or_404(Canteen, c_no=c_no)
+    # Fetch items for the selected canteen
+    items = Items.objects.filter(c_no=canteen.c_no)
+    # Pass data to the template
+    return render(request, 'cankiet/menu.html', {'canteen': canteen, 'items': items})
 
-def cart(request):
-    user=User.objects.all()
+def cart(request,c_no):
+    
+    canteen = get_object_or_404(Canteen, c_no=c_no)
+    if request.method == 'POST':
+        item_id = request.POST.get('i_no')
+        quantity = int(request.POST.get('quantity', 1))
+        # Fetch the item
+        items = get_object_or_404(Items,i_no=item_id)
+        total_amount=quantity*items.price
 
-    return render(request, 'cankiet/cart.html', {'user': user})
+    return render(request, 'cankiet/cart.html',{'canteen': canteen, 'items': items,'quantity':quantity,'total':total_amount})
 
+def confirmation(request,c_no):
+    canteen = get_object_or_404(Canteen, c_no=c_no)
+    if request.method == 'POST':
+        user=request.user
+    
+
+        # Generate Order Number
+        timestamp = now().strftime('%Y%m%d%H%M%S')
+        o_no = f"ORD{timestamp}{str(uuid.uuid4().int)[:6]}"
+
+        item_id = request.POST.get('i_no')
+        quantity = int(request.POST.get('quantity', 1))
+        total=int(request.POST.get('total'))
+        # Fetch the item
+        items = get_object_or_404(Items,i_no=item_id)
+        Order.objects.create(
+                o_no=o_no,
+                o_date=now(),
+                u_id=user.u_id,  # Reference to logged-in user
+                item=items.i_no,
+                c_no=c_no,  # Reference to the related canteen
+                quantity=quantity,
+                price=items.price,
+                total_price=total,
+            )
+
+    return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'user':user})
 
 def login_check(request):
     if request.method == 'POST':
@@ -49,7 +93,7 @@ def login_check(request):
                 if check_password(password, user.password):
                     # Store all user attributes in the session
                     request.session['user'] = {
-                    'user_id': user.u_id,
+                    'u_id': user.u_id,
                     'name': user.name,
                     'phone': user.phone,
                     'dept': user.branch,
