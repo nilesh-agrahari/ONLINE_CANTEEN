@@ -23,7 +23,18 @@ def logout(request):
 def orders(request):
     user=User.objects.all()
     food=Items.objects.all()
-    return render(request, 'cankiet/orders.html', {'user': user,'food':food}) 
+    return render(request, 'cankiet/orders.html', {'user': user,'food':food})
+
+def canteens(request):
+    user=User.objects.all()
+
+    return render(request, 'cankiet/canteens.html', {'user': user})
+
+def cart(request):
+    user=User.objects.all()
+
+    return render(request, 'cankiet/cart.html', {'user': user})
+
 
 def login_check(request):
     if request.method == 'POST':

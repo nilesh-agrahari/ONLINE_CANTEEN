@@ -1,102 +1,5 @@
 @charset "utf-8";
-/* Table of contents 
-+ back-top 
-+ topbar
- +main-navigation
-+ navigation.affix
-	+ navbar-default
-		+ navbar-nav
 
- + main-slider
- 	+ tp-banner-container
-		+ tp-banner
-		
-+ bg_bistro
-	+ white_content
-	
-+ services
-	+ service-slider
-	+ owl-carousel
-		+ item
-			+ item_inner
-	
-+ cheffs
-	+ cheffs_wrap_slider
-		+ cheffs-slider
-		+ owl-carousel	
-			+ item
-				+ cheffs_info
-				+ cheffs_photo
-				
-+ info_section
-	+ right_box
-		+ right_box_inner
-			+ white_content
-			
-+ news
-	+ news_main
-		+ news_thumb
-		
-+ testinomial
-	+ testinomial-slider
-		+ item
-		
-+ page_header
-	+ page_title
-	
-+ .grid_layout
-	+ wrap-col
-		+ item-container
-
-+ gallery 
-	+ work-filter
-	+ work-item
-		+ gallery_content
-		
-+ blog
-	+ blog_item
-		+ blog-slider
-		+ blockquote
-	+ sidebar
-		+ tabs
-		+ tab_container
-
-+ order
-	+ appointment_wrap
-		+ callus
-			
-+ faq	
-	+ faq_wrapper
-		+ items
-			+ sub-items
-			
-+ service_wrapper	
-	+ items
-	
-+ menu
-	+ price
-	 	+ price_header	
-		+ price_body
-			+ pricing_feature
-			
-+ map
-+ mapTwo
-	+ search_location
-	+ bistro	
-	
-+ feature
-+ news-slide
-	+ news_content
-		+ date_comment
-	+ comment_text
-	
-+ footer
-	+ footer_column
-		 
-
-*/
-
-/**----- Fonts ----**/
 
 @font-face {
     font-family: 'BebasRegular';
@@ -155,8 +58,8 @@ body,html{
 	height:100%;
 	width:100%;
 }
-.title{
-  font-size: xx-small;
+
+.h101{
   background-color: #55acee;
 }
 
@@ -399,7 +302,6 @@ ul.menu_widget li:nth-child(2n+2){
 	color:#000000;
 }
 ul.menu_widget li > span{float:right;}
-ul.tags{}
 ul.tags li {
   display: inline-block;
   margin-bottom: 5px;
@@ -416,7 +318,6 @@ ul.tags li a:hover, ul.tags li a:focus{
 	border:1px solid #e25111;
 	color:#fff;
 }
-ul.social_icon{}
 ul.social_icon li {
     display: inline-block;
 }
@@ -614,7 +515,7 @@ ul.tags li a, ul.social_icon li a,
   z-index:999;
 }
 .navbar-default {
-  background-color: transparent;
+  background-color: black;
   border-color: transparent;
 }
 .navbar , .navbar-default{
@@ -684,7 +585,7 @@ ul.tags li a, ul.social_icon li a,
 }
 
 .navbar-default .navbar-nav > li > a {
-  color: #fff;
+  color: #1a1919;
   font-size: 14px;
   text-transform: uppercase;
   padding:10px 30px;
