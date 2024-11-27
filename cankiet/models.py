@@ -31,7 +31,7 @@ class User(models.Model):
 class Items(models.Model):
     i_no=models.CharField(max_length=12,primary_key=True)
     item=models.CharField(max_length=20)
-    i_image=models.ImageField(upload_to='images/')
+    i_image=models.ImageField(upload_to='images/',blank=True)
     price=models.IntegerField()
     c_no=models.CharField(max_length=12)
     availability=models.CharField(max_length=1)
@@ -47,13 +47,21 @@ class Canteen(models.Model):
         return f"{self.c_name}  {self.c_no}"
     
 class Order(models.Model):
-    o_no = models.AutoField(primary_key=True)  # Auto-incrementing primary key
+
+    st=[
+        ('R','rejected'),
+        ('I','in-progress'),
+        ('C','completed'),
+    ]
+
+    o_no = models.CharField(max_length=30,primary_key=True)  # Auto-incrementing primary key
     o_date = models.DateTimeField(default=now)  # Automatically stores current date and time
-    u_id = models.ForeignKey(User, on_delete=models.CASCADE)  # Foreign key to User table
+    # u_id = models.ForeignKey(User, on_delete=models.CASCADE)  # Foreign key to User table
     c_no = models.ForeignKey(Canteen, on_delete=models.CASCADE)  # Foreign key to Canteen table
     item = models.ForeignKey(Items, on_delete=models.CASCADE)  # Single-valued attribute (ForeignKey to Item)
-    quantity = models.PositiveIntegerField(default=1)  # Quantity of the item in the order
+    quantity = models.IntegerField(default=1)  # Quantity of the item in the order
     total_amount = models.IntegerField(default=0)  # Store the total amount
+    status=models.CharField(max_length=1,choices=st,default='I')
 
     def save(self, *args, **kwargs):
         # Automatically calculate the total_amount before saving

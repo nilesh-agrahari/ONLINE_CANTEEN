@@ -40,6 +40,15 @@ def menu(request,c_no):
     # Pass data to the template
     return render(request, 'cankiet/menu.html', {'canteen': canteen, 'items': items})
 
+def food(request,c_no):
+     # Fetch the selected canteen
+    canteen = get_object_or_404(Canteen, c_no=c_no)
+    # Fetch items for the selected canteen
+    items = Items.objects.filter(c_no=canteen.c_no)
+    # Pass data to the template
+    return render(request, 'cankiet/orderfoodpage.html', {'canteen': canteen, 'items': items})
+
+
 def cart(request,c_no):
     
     canteen = get_object_or_404(Canteen, c_no=c_no)
@@ -55,13 +64,10 @@ def cart(request,c_no):
 def confirmation(request,c_no):
     canteen = get_object_or_404(Canteen, c_no=c_no)
     if request.method == 'POST':
-        user=request.user
-    
-
         # Generate Order Number
         timestamp = now().strftime('%Y%m%d%H%M%S')
         o_no = f"ORD{timestamp}{str(uuid.uuid4().int)[:6]}"
-
+        date=now()
         item_id = request.POST.get('i_no')
         quantity = int(request.POST.get('quantity', 1))
         total=int(request.POST.get('total'))
@@ -70,15 +76,14 @@ def confirmation(request,c_no):
         Order.objects.create(
                 o_no=o_no,
                 o_date=now(),
-                u_id=user.u_id,  # Reference to logged-in user
-                item=items.i_no,
-                c_no=c_no,  # Reference to the related canteen
+                # u_id=user.u_id,  # Reference to logged-in user
+                c_no=canteen,  # Reference to the related canteen
+                item=items,
                 quantity=quantity,
-                price=items.price,
-                total_price=total,
+                total_amount=total,
             )
-
-    return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'user':user})
+        order=get_object_or_404(Order,o_no=o_no)
+    return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'total_amount':total,'date':date,'order':order})
 
 def login_check(request):
     if request.method == 'POST':

@@ -13,5 +13,5 @@ urlpatterns = [
     path('<str:c_no>/menu/', views.menu, name='menu'),
     path('<str:c_no>/cart/', views.cart, name='cart'),
     path('<str:c_no>/confirmation/', views.confirmation, name='confirmation'),
-
+    path('<str:c_no>/food/', views.food, name='food'),
 ]
