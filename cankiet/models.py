@@ -49,9 +49,9 @@ class Canteen(models.Model):
 class Order(models.Model):
 
     st=[
-        ('R','rejected'),
-        ('I','in-progress'),
-        ('C','completed'),
+        ('Rejected','rejected'),
+        ('In Progress','in-progress'),
+        ('Compeleted','completed'),
     ]
 
     o_no = models.CharField(max_length=30,primary_key=True)  # Auto-incrementing primary key
@@ -61,7 +61,7 @@ class Order(models.Model):
     item = models.ForeignKey(Items, on_delete=models.CASCADE)  # Single-valued attribute (ForeignKey to Item)
     quantity = models.IntegerField(default=1)  # Quantity of the item in the order
     total_amount = models.IntegerField(default=0)  # Store the total amount
-    status=models.CharField(max_length=1,choices=st,default='I')
+    status=models.CharField(max_length=11,choices=st,default='I')
 
     def save(self, *args, **kwargs):
         # Automatically calculate the total_amount before saving
@@ -69,4 +69,4 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.o_date}  Order {self.o_no} - {self.item.item} ({self.quantity} pcs) - Total: ₹{self.total_amount}"
+        return f"{self.o_date} ------------ Order {self.o_no} ---- {self.item.item} ({self.quantity} pcs) - Total: ₹{self.total_amount}"
