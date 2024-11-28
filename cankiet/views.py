@@ -65,11 +65,6 @@ def cart(request,c_no):
 def confirmation(request,c_no):
     canteen = get_object_or_404(Canteen, c_no=c_no)
     if request.method == 'POST':
-<<<<<<< Updated upstream
-=======
-    
-
->>>>>>> Stashed changes
         # Generate Order Number
         timestamp = now().strftime('%Y%m%d%H%M%S')
         o_no = f"ORD{timestamp}{str(uuid.uuid4().int)[:6]}"
@@ -82,25 +77,15 @@ def confirmation(request,c_no):
         Order.objects.create(
                 o_no=o_no,
                 o_date=now(),
-<<<<<<< Updated upstream
                 # u_id=user.u_id,  # Reference to logged-in user
-=======
-                  # Reference to logged-in user
->>>>>>> Stashed changes
                 c_no=canteen,  # Reference to the related canteen
                 item=items,
                 quantity=quantity,
                 total_amount=total,
-<<<<<<< Updated upstream
 
             )
         order=get_object_or_404(Order,o_no=o_no)
     return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'total_amount':total,'date':date,'order':order})
-=======
-            )
-
-    return render(request, 'cankiet/confirmation.html',{'o_no':o_no})
->>>>>>> Stashed changes
 
 def login_check(request):
     if request.method == 'POST':
