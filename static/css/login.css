@@ -62,7 +62,12 @@ h2
     outline: none;
     color: #fff;
 }
-
+.form-group input:focus {
+    background-color:transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+}
 .form-group label
 {
     position: absolute;
