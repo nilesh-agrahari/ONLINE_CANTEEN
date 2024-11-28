@@ -1,18 +1,28 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Food - Cool Canteen</title>
+    <title>Your Cart</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="{% static 'images/cankiet_logo.png' %}">
-    {% comment %} <link rel="stylesheet" href="styles.css"> {% endcomment %}
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
     <style>
-      .card{
-      box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
-      }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -26,10 +36,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-4">
-                        <h6>{{request.session.user.name }} &nbsp; {{request.session.user.u_id}}</h6>
+                        <h4>{{request.session.user.name }} &nbsp; {{request.session.user.u_id}}</h4>
                     </li>
                     <li class="nav-item mx-4">
-                        <a class="" href="#"><h6 class="text-light">home</h6></a>
+                        <a class="" href="#"><h4 class="text-light">home</h4></a>
                     </li>
                     
                     <li class="nav-item">
@@ -40,60 +50,48 @@
         </div>
     </nav>
 
-    <!-- Order Food Section -->
-    <section class="order-food-section py-5 mt-4">
-        <div class="container">
-            <h3 class="text-center mt-4 mb-4">Select your Food from <strong>{{ canteen.c_name}}</strong></h3>
+  <!-- Cart Table -->
+<div class="container-fluid mt-5">
+    <div class="row mt-5">
+        <div class="col mt-5">
+    <h1 style="text-align: center;">Your Cart</h1>
+    <form method="post" action="{% url 'confirmation' canteen.c_no %}">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ items.item }}</td>
+                    <td>{{ items.price }}</td>
+                    <td>{{ quantity }}</td>
+                    <td>{{ total}}</td>
+                    <!-- Hidden fields to send data to the server -->
+                    <input type="hidden" name="i_no" value="{{ items.i_no }}">
+                    <input type="hidden" name="quantity" value="{{ quantity }}">
+                    <input type="hidden" name="total" value="{{ total }}">
+                </tr>
+            </tbody>
+        </table>
+        <h3 style="text-align: center;">Total Amount: ₹{{ total}}</h3>
 
-            <!-- Food Cards -->
-            
-            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-4 g-4 mb-3" id="breakfast-cards">
-                <!-- Initially shown Breakfast Cards -->
-                {% for item in items %}
-                <div class="col mb-4 col-lg-3">
-                    <div class="card  bg-dark text-white">
-                        <img src="{{item.i_image.url}}" class="card-img-top" style="height: 180px; object-fit: cover;" alt="Pancakes">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ item.item }}</h5>
-                            <p class="card-text">₹{{ item.price }}</p>
-                            <form method="post" action="{% url 'cart' canteen.c_no %}">
-                                <div class="d-flex align-items-center">
-                                {% csrf_token %}
-                                {% comment %} <input type="checkbox" class="form-check-input me-3"> {% endcomment %}
-                                    {% comment %} <input type="number" class="form-control" value="1" style="width: 70px;"> {% endcomment %}
-        
-        
-                                    {% comment %} <button class="btn btn-success">Proceed to Checkout</button> {% endcomment %}
-                                <input type="hidden" name="i_no" value="{{ item.i_no }}">
-                                {% comment %} <label for="quantity_{{ item.i_no }}">Quantity:</label> {% endcomment %}
-                                <input type="number" class="form-control " id="quantity_{{ item.i_no }}" name="quantity" style="width:70px" min="1" value="1" required>
-                                <button type="submit" class="btn btn-success ms-4">Add to Cart</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>    
-            
+        <!-- Submit Button -->
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="submit">Place Order</button>
         </div>
-    </section>
-
-     <!--Centered checkout button
-    <div id="floating-button" class="d-none position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 1000; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-        <button class="btn btn-success">Proceed to Checkout</button>
-    </div> -->
-
-
-<!--Floating right proceed to checkout button-->
-<div id="floating-button" class="d-none position-fixed bottom-0 end-0 me-4 mb-4 p-3" style="z-index: 1000;">
-    {% comment %} <form method="post" action="{% url 'cart' canteen.c_no %}"> {% endcomment %}
-        
-        
-    <button class="btn btn-success">Proceed to Checkout</button>
+    </form>
+    </div>
+    </div>
 </div>
 
-<!--FOOTER-->
+
+    <!--FOOTER-->
 <footer class="bg-dark text-white pt-4 pb-2 mt-5">
     <div class="container">
       <div class="row">
@@ -161,35 +159,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const checkboxes = document.querySelectorAll('.form-check-input');
-        const floatingButton = document.getElementById('floating-button');
-
-        // Add event listener to each checkbox
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('click', function() {
-                const isSelected = Array.from(checkboxes).some(cb => cb.checked);
-                if (isSelected) {
-                    floatingButton.classList.remove('d-none');
-                } else {
-                    floatingButton.classList.add('d-none');
-                }
-            });
-        });
-    });
-
-    function toggleMore(section) {
-        const moreSection = document.getElementById(`${section}-more`);
-        const moreButton = document.getElementById(`${section}-more-btn`);
-        moreSection.classList.toggle('d-none');
-        if (!moreSection.classList.contains('d-none')) {
-            moreButton.classList.add('d-none');
-        }
-    }
-</script>
-
-    
-
-   
 </body>
 </html>

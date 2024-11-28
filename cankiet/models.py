@@ -61,7 +61,7 @@ class Order(models.Model):
     item = models.ForeignKey(Items, on_delete=models.CASCADE)  # Single-valued attribute (ForeignKey to Item)
     quantity = models.IntegerField(default=1)  # Quantity of the item in the order
     total_amount = models.IntegerField(default=0)  # Store the total amount
-    status=models.CharField(max_length=11,choices=st,default='I')
+    status=models.CharField(max_length=11,choices=st,default='In Progress')
 
     def save(self, *args, **kwargs):
         # Automatically calculate the total_amount before saving

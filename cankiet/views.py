@@ -23,10 +23,11 @@ def logout(request):
     return redirect('login')  # Redirect to the login page  
  
 def orders(request):
+    orders=Order.objects.all()
     user=User.objects.all()
-    food=Items.objects.all()
+    items=Items.objects.all()
 
-    return render(request, 'cankiet/orders.html', {'user': user,'food':food})
+    return render(request, 'cankiet/orders.html', {'user': user,'items':items,'order':orders})
 
 def canteens(request,):
     canteen=Canteen.objects.all()
@@ -81,6 +82,7 @@ def confirmation(request,c_no):
                 item=items,
                 quantity=quantity,
                 total_amount=total,
+
             )
         order=get_object_or_404(Order,o_no=o_no)
     return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'total_amount':total,'date':date,'order':order})
