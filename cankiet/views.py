@@ -23,10 +23,11 @@ def logout(request):
     return redirect('login')  # Redirect to the login page  
  
 def orders(request):
+    orders=Order.objects.all()
     user=User.objects.all()
-    food=Items.objects.all()
+    items=Items.objects.all()
 
-    return render(request, 'cankiet/orders.html', {'user': user,'food':food})
+    return render(request, 'cankiet/orders.html', {'user': user,'items':items,'order':orders})
 
 def canteens(request,):
     canteen=Canteen.objects.all()
@@ -64,6 +65,11 @@ def cart(request,c_no):
 def confirmation(request,c_no):
     canteen = get_object_or_404(Canteen, c_no=c_no)
     if request.method == 'POST':
+<<<<<<< Updated upstream
+=======
+    
+
+>>>>>>> Stashed changes
         # Generate Order Number
         timestamp = now().strftime('%Y%m%d%H%M%S')
         o_no = f"ORD{timestamp}{str(uuid.uuid4().int)[:6]}"
@@ -76,14 +82,25 @@ def confirmation(request,c_no):
         Order.objects.create(
                 o_no=o_no,
                 o_date=now(),
+<<<<<<< Updated upstream
                 # u_id=user.u_id,  # Reference to logged-in user
+=======
+                  # Reference to logged-in user
+>>>>>>> Stashed changes
                 c_no=canteen,  # Reference to the related canteen
                 item=items,
                 quantity=quantity,
                 total_amount=total,
+<<<<<<< Updated upstream
+
             )
         order=get_object_or_404(Order,o_no=o_no)
     return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'total_amount':total,'date':date,'order':order})
+=======
+            )
+
+    return render(request, 'cankiet/confirmation.html',{'o_no':o_no})
+>>>>>>> Stashed changes
 
 def login_check(request):
     if request.method == 'POST':
