@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="icon" href="{% static 'images/cankiet_logo.png'%}">
     <script src="{% static 'js/js/login.js' %}"></script>
     <style>
         body{
@@ -17,7 +18,7 @@
 <body>
     
 <div class="container">
-    <h2>Login</h2>
+    <h2><img src="{% static 'images/cankiet_logo.png'%}" width="150px" alt=""></h2>
    
     <!-- Add Django's form and POST method -->
     <form id="loginForm" method="POST" action="{% url 'check' %}">

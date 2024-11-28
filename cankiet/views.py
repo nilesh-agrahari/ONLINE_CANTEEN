@@ -13,6 +13,9 @@ def index2(request):
     # If session exists, render the index page
     return render(request, 'cankiet/index2.html', {'user': user})
 
+def galary(request):
+    return render(request,'cankiet/galary.html',)
+
 def login(request):
     user=User.objects.all()
     return render(request, 'cankiet/login.html', {'user': user})  
@@ -62,6 +65,26 @@ def cart(request,c_no):
 
     return render(request, 'cankiet/cart.html',{'canteen': canteen, 'items': items,'quantity':quantity,'total':total_amount})
 
+def dummy_payment(request,c_no):
+    canteen = get_object_or_404(Canteen, c_no=c_no)
+    if request.method == 'POST':
+        # Retrieve cart/order details
+
+        # order_id = request.POST.get('order_id')
+        total_amount = int(request.POST.get('total'))
+        item_id = request.POST.get('i_no')
+        items = get_object_or_404(Items,i_no=item_id)
+        quantity = int(request.POST.get('quantity', 1))
+
+        # Pass data to payment page
+        return render(request, 'cankiet/payment.html', {
+            # 'order_id': order_id,
+            'total': total_amount,
+            'items':items,
+            'quantity':quantity,
+            'canteen':canteen,
+        })
+
 def confirmation(request,c_no):
     canteen = get_object_or_404(Canteen, c_no=c_no)
     if request.method == 'POST':
@@ -69,6 +92,8 @@ def confirmation(request,c_no):
         timestamp = now().strftime('%Y%m%d%H%M%S')
         o_no = f"ORD{timestamp}{str(uuid.uuid4().int)[:6]}"
         date=now()
+        # Generate Transaction ID
+        transaction_id = f"TXN{uuid.uuid4().hex[:10].upper()}"
         item_id = request.POST.get('i_no')
         quantity = int(request.POST.get('quantity', 1))
         total=int(request.POST.get('total'))
@@ -85,7 +110,7 @@ def confirmation(request,c_no):
 
             )
         order=get_object_or_404(Order,o_no=o_no)
-    return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'total_amount':total,'date':date,'order':order})
+    return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'total_amount':total,'date':date,'order':order,'tr_id':transaction_id})
 
 def login_check(request):
     if request.method == 'POST':

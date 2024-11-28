@@ -64,14 +64,7 @@
                    </li>
                    <li><a href="{% url 'canteens' %}">Canteens</a></li>
                    
-                     <li class="dropdown ">
-                     <a data-toggle="dropdown" href="#" class="dropdown-toggle ">gallery</a>
-                     <ul class="dropdown-menu">
-                       <li><a href="gallery.html">Gallery Three</a></li>
-                       <li><a href="gallery4c.html">Gallery Four column</a></li>
-                       <li><a href="gallery2c.html">Gallery Two column</a></li>
-                     </ul>
-                   </li>
+                  <li class="dropdown "><a href="{% url 'galary'%}" class="dropdown-toggle ">gallery</a></li>
                    </ul> 
                    </div>
                    <div class="navbar-right-1">
@@ -240,40 +233,40 @@
              <div class="item">
                <div class="item_inner">
                <div class="image">
-                 <img src="images/food-1.jpg" alt="Services Image">
+                 <img src="{% static 'images/gulab jamun.jpg'%}" height="370px" alt="Services Image">
                  <a  href="services.html"></a>
                </div>
-                 <h3><a href="services.html">Lorem ipsum dolor</a></h3>
+                 <h3><a href="services.html">gulab jamun</a></h3>
                  <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore nulla facilisis.</p>
                </div>
              </div>
              <div class="item">
                <div class="item_inner">
                  <div class="image">
-                 <img src="images/food-2.jpg" alt="Services Image">
+                 <img src="{% static 'images/roll.jpg'%}" alt="Services Image">
                  <a  href="services.html"></a>
                  </div>
-                 <h3><a href="services.html">Lorem samet</a></h3>
+                 <h3><a href="services.html">Spring rolls</a></h3>
                  <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore nulla facilisis.</p>
                </div>
              </div>
              <div class="item">
                <div class="item_inner">
                  <div class="image">
-                 <img src="images/food-3.jpg" alt="Services Image">
+                 <img src="{% static 'images/upma.jpg' %}" alt="Services Image">
                  <a  href="services.html"></a>
                  </div>
-                 <h3><a href="services.html">Lorem ipsum dolor s amet</a></h3>
+                 <h3><a href="services.html">Upma</a></h3>
                  <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore nulla facilisis.</p>
                </div>
              </div>
              <div class="item">
                <div class="item_inner">
                  <div class="image">
-                 <img src="images/food-4.jpg" alt="Services Image">
+                 <img src="{% static 'images/poha.jpg'%}" alt="Services Image">
                  <a  href="services.html"></a>
                  </div>
-                 <h3><a href="services.html">Lorem samet</a></h3>
+                 <h3><a href="services.html">Special Poha</a></h3>
                  <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore nulla facilisis.</p>
                </div>
              </div>
@@ -292,14 +285,14 @@
          <div class="col-sm-3 col-xs-12 text-center wow fadeInDown" data-wow-duration="500ms" data-wow-delay="300ms">
            <div class="counters-item row">
            <i class="icon-smile"></i> 
-           <h2><strong data-to="4680">0</strong></h2>
+           <h2><strong data-to="4">0</strong></h2>
              <p>Happy Customers</p>
            </div>
          </div>
          <div class="col-sm-3 col-xs-12 text-center wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
            <div class="counters-item  row"> 
            <i class="icon-food"></i>
-           <h2><strong data-to="865">0</strong></h2>
+           <h2><strong data-to="30">0</strong></h2>
              <p>Dishes Served</p>
            </div>
          </div>
@@ -307,14 +300,14 @@
            
            <div class="counters-item  row"> 
            <i class="icon-glass"></i>
-           <h2><strong data-to="510">0</strong></h2>
+           <h2><strong data-to="5">0</strong></h2>
              <p>Total Beverages</p>
            </div>
          </div>
          <div class="col-sm-3 col-xs-12 text-center wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1200ms">
            <div class="counters-item  row"> 
            <i class="icon-coffee"></i>
-           <h2><strong data-to="1350">0</strong></h2>
+           <h2><strong data-to="2">0</strong></h2>
              <p>Cup of coffees</p>
            </div>
          </div>
@@ -327,7 +320,7 @@
      <div class="container order_form padding">
        <div class="row">
          <div class="col-md-12 appointment_form">
-           <h2 class="heading">Online Order</h2>
+           <h2 class="heading">Give us a Feddback!!!!</h2>
            <hr class="heading_space">
          <div class="row">  
           <div class="col-md-8">
@@ -337,7 +330,7 @@
                <div id="result" class="text-center"></div></div></div>
                 <div class="row">
                 <div class="form-group col-md-12">
-               <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.</p>
+               <p>your feedback helps us to do better next time you visit.</p>
                </div></div>
                  <div class="row">
                    <div class="col-md-6">
@@ -359,10 +352,10 @@
                      <div class="form-group">
                        
                        <select class="form-control" id="deal" name="deal">
-                          <option> Select Deal </option>
-                          <option> Deal One ($200) </option>
-                          <option> Deal Two ($500) </option>
-                          <option> Deal Three ($900) </option>
+                          <option> Select</option>
+                          <option> food Qaulity </option>
+                          <option> heigine </option>
+                          <option> Poor Service </option>
                           <option> Deal Four ($1300) </option>
                        </select>
                      </div>
@@ -373,7 +366,7 @@
                      </div>
                      <div class="form-group">
                         <div class="btn-submit btn-common-white">
-                       <input type="submit" value="Place &nbsp; Order" id="btn_order_submit" />
+                       <input type="submit" value="Submit &nbsp; Response" id="btn_order_submit" />
                        </div>
                      </div>
                    </div>

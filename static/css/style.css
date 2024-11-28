@@ -507,7 +507,7 @@ ul.tags li a, ul.social_icon li a,
 }
 #navigation.affix {
   position: fixed;
-  background-color:rgba(0, 0, 0, 0.73);
+  background-color:rgba(107, 106, 106, 0);
 }
 #main-navigation,#navigation.affix{
   top: 0;
@@ -585,7 +585,7 @@ ul.tags li a, ul.social_icon li a,
 }
 
 .navbar-default .navbar-nav > li > a {
-  color: #1a1919;
+  color: #5a5a5a;
   font-size: 14px;
   text-transform: uppercase;
   padding:10px 30px;

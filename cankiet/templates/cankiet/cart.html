@@ -50,7 +50,7 @@
   </div>
 
     <div class="container my-5">
-      <form method="post" action="{% url 'confirmation' canteen.c_no %}">
+      <form method="post" action="{% url 'payment' canteen.c_no %}">
         {% csrf_token %}
         <h1 class="text-center mb-4">Your Cart</h1>
         <div class="row">
