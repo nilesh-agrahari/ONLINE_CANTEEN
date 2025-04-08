@@ -54,7 +54,11 @@ class Order(models.Model):
         ('Compeleted','completed'),
     ]
 
-    o_no = models.CharField(max_length=30,primary_key=True)  # Auto-incrementing primary key
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    payment_id = models.CharField(max_length=100, blank=True, null=True)
+    payment_signature = models.CharField(max_length=100, blank=True, null=True)
+    is_paid = models.BooleanField(default=False)
+    o_no = models.CharField(max_length=30)  # Auto-incrementing primary key
     o_date = models.DateTimeField(default=now)  # Automatically stores current date and time
     # u_id = models.ForeignKey(User, on_delete=models.CASCADE)  # Foreign key to User table
     c_no = models.ForeignKey(Canteen, on_delete=models.CASCADE)  # Foreign key to Canteen table
