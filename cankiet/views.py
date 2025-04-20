@@ -61,139 +61,77 @@ def food(request,c_no):
     return render(request, 'cankiet/orderfoodpage.html', {'canteen': canteen, 'items': items})
 
 
-# def cart(request,c_no):
+def cart(request,c_no):
     
-#     canteen = get_object_or_404(Canteen, c_no=c_no)
-#     if request.method == 'POST':
-#         item_id = request.POST.get('i_no')
-#         quantity = int(request.POST.get('quantity', 1))
-#         # Fetch the item
-#         items = get_object_or_404(Items,i_no=item_id)
-#         total_amount=quantity*items.price
+     canteen = get_object_or_404(Canteen, c_no=c_no)
+     if request.method == 'POST':
+         item_id = request.POST.get('i_no')
+         quantity = int(request.POST.get('quantity', 1))
+         # Fetch the item
+         items = get_object_or_404(Items,i_no=item_id)
+         total_amount=quantity*items.price
 
-#     return render(request, 'cankiet/cart.html',{'canteen': canteen, 'items': items,'quantity':quantity,'total':total_amount})
+     return render(request, 'cankiet/cart.html',{'canteen': canteen, 'items': items,'quantity':quantity,'total':total_amount})
 
+@csrf_exempt
 def start_payment(request,c_no):
-    canteen = get_object_or_404(Canteen,c_no=c_no)
-
     if request.method == 'POST':
+        canteen = get_object_or_404(Canteen,c_no=c_no)
         item_id = request.POST.get('i_no')
         quantity = int(request.POST.get('quantity', 1))
         items = get_object_or_404(Items,i_no=item_id)
-        total_amount=quantity*items.price*100
+        # total_amount=(quantity*items.price)*100
+        total_amount= int(quantity*items.price*100)  # Convert to paisa
 
-        #amount = int(item.price * 100)  # Convert to paisa
+        razorpay_order = client.order.create({
+            'amount':total_amount,
+            'currency': 'INR',
+            "payment_capture":1,  
+        })
 
-    razorpay_order = client.order.create({
-        'amount': total_amount,
-        'currency': 'INR',
-        
-    })
-
-    order = Order.objects.create(
-        item=items,
-        razorpay_order_id=razorpay_order['id'],
-        quantity=quantity,
-        total_amount=total_amount / 100,
-        c_no=canteen,  
-        )
-
-    context = {
-        'canteen': canteen,
-        'items': items,
-        'order': order,
-        'razorpay_key_id': settings.RAZORPAY_KEY_ID,
-        'razorpay_order_id': razorpay_order['id'],
-        'amount': total_amount,
-        'currency': 'INR'
-    }
-    return render(request, 'cankiet/payment2.html', context)
+        order = Order.objects.create(
+            item=items,
+            razorpay_order_id=razorpay_order['id'],
+            quantity=quantity,
+            # total_amount=total_amount,
+            c_no=canteen,  
+            )
+        return JsonResponse({
+            "order_id": razorpay_order['id'],
+            "razorpay_key_id": settings.RAZORPAY_KEY_ID,
+            "product_name": items.item,
+            "amount": total_amount,
+            "razorpay_callback_url":settings.RAZORPAY_CALLBACK_URL
+        })    
 
 @csrf_exempt
 def verify_payment(request):
-    if request.method == "POST":
-        data = request.POST
+    if "razorpay_signature" in request.POST:
+        order_id = request.POST.get('razorpay_order_id')
+        payment_id = request.POST.get('razorpay_payment_id')
+        signature = request.POST.get('razorpay_signature')
 
-        try:
-            client.utility.verify_payment_signature({
-                'razorpay_order_id': data['razorpay_order_id'],
-                'razorpay_payment_id': data['razorpay_payment_id'],
-                'razorpay_signature': data['razorpay_signature']
-            })
+        order = get_object_or_404(Order, razorpay_order_id=order_id)
 
-            order = Order.objects.get(razorpay_order_id=data['razorpay_order_id'])
-            order.payment_id = data['razorpay_payment_id']
-            order.payment_signature = data['razorpay_signature']
-            order.is_paid=True
-            timestamp = now().strftime('%Y%m%d%H%M%S')
-            order.o_no = f"ORD{timestamp}{str(uuid.uuid4().int)[:6]}"
-            order.date=now()
-            quantity = int(request.POST.get('quantity', 1))
-            total=int(request.POST.get('total'))
-
-                # u_id=user.u_id,  # Reference to logged-in user
-        # c_no=canteen,  # Reference to the related canteen
-            # order.quantity=quantity,
-            # order.total_amount=total
+        if client.utility.verify_payment_signature({
+            'razorpay_order_id': order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+            }):
+            order.payment_id = payment_id
+            order.payment_signature = signature
+            order.is_paid = True
+            order.o_date = now()
+            order.status = 'In Progress'
             order.save()
-            return JsonResponse({'status': 'Payment Successful'})
-        except:
-            order = Order.objects.get(razorpay_order_id=data['razorpay_order_id'])
+            return render(request, 'cankiet/confirmation.html', {'order': order})
+        else:
             order.is_paid = False
             order.save()
-            return JsonResponse({'status': 'Payment Failed'}, status=400)
-    return HttpResponseBadRequest()
-
-        #     return render(request,'cankiet/confirmation.html' , {"order": order})
-        # except:
-        #     return render(request, "fail.html")
-
-
-
-# def dummy_payment(request,c_no):
-#     canteen = get_object_or_404(Canteen, c_no=c_no)
-#     if request.method == 'POST':
-#         # Retrieve cart/order details
-
-#         # order_id = request.POST.get('order_id')
-#         total_amount = int(request.POST.get('total'))
-#         item_id = request.POST.get('i_no')
-#         items = get_object_or_404(Items,i_no=item_id)
-#         quantity = int(request.POST.get('quantity', 1))
-
-#         # Pass data to payment page
-#         return render(request, 'cankiet/payment.html', {
-#             # 'order_id': order_id,
-#             'total': total_amount,
-#             'items':items,
-#             'quantity':quantity,
-#             'canteen':canteen,
-#         })
-
-# def confirmation(request,c_no):
-#     canteen = get_object_or_404(Canteen, c_no=c_no)
-#     if request.method == 'POST':
-#         # Generate Order Number
-#         timestamp = now().strftime('%Y%m%d%H%M%S')
-#         o_no = f"ORD{timestamp}{str(uuid.uuid4().int)[:6]}"
-#         date=now()
-    #     item_id = request.POST.get('i_no')
-    #     quantity = int(request.POST.get('quantity', 1))
-    #     total=int(request.POST.get('total'))
-    #     # Fetch the item
-    #     items = get_object_or_404(Items,i_no=item_id)
-    #     Order.objects.create(
-    #             o_no=o_no,
-    #             o_date=now(),
-    #             # u_id=user.u_id,  # Reference to logged-in user
-    #             c_no=canteen,  # Reference to the related canteen
-    #             item=items,
-    #             quantity=quantity,
-    #             total_amount=total,
-
-    #         )
-    #     order=get_object_or_404(Order,o_no=o_no)
-    # return render(request, 'cankiet/confirmation.html',{'o_no':o_no,'total_amount':total,'date':date,'order':order,'tr_id':transaction_id})
+            return JsonResponse({'status': 'Payment Failed'})
+    else:
+        return JsonResponse({'status': ' Failed'})
+       
 
 def login_check(request):
     if request.method == 'POST':

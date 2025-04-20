@@ -23,19 +23,19 @@
           <tbody>
             <tr>
               <th>Order ID</th>
-              <td>{{o_no}}</td>
+              <td>{{order.razorpay_order_id}}</td>
             </tr>
             <tr>
               <th>Amount Paid</th>
-              <td>₹{{total_amount}}.00</td>
+              <td>₹{{order.total_amount}}.00</td>
             </tr>
             <tr>
                 <th>Date</th>
-                <td>{{date}}</td>
+                <td>{{order.o_date}}</td>
             </tr>
             <tr>
               <th>Transaction ID</th>
-              <td>{{tr_id}}</td>
+              <td>{{order.payment_id}}</td>
             </tr>
           </tbody>
         </table>

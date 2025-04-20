@@ -116,12 +116,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+from decouple import config
 # Razorpay Credentials
-RAZORPAY_KEY_ID = "rzp_test_ZAXEGJCel5e50u"
-RAZORPAY_KEY_SECRET = "ZuED4A6ozi4oKmaghJjADxre"
+RAZORPAY_KEY_ID ="rzp_test_ZAXEGJCel5e50u"
+RAZORPAY_KEY_SECRET ="ZuED4A6ozi4oKmaghJjADxre"
 
-
+RAZORPAY_CALLBACK_URL="http://127.0.0.1:8000/cankiet/verify_payment/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

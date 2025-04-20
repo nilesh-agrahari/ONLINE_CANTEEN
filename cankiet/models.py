@@ -73,4 +73,4 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.o_date} ------------ Order {self.o_no} ---- {self.item.item} ({self.quantity} pcs) - Total: ₹{self.total_amount}"
+        return f"{self.razorpay_order_id} ---- {self.item.item} ({self.quantity} pcs) - Total: ₹{self.total_amount} ----- paid: {self.is_paid} ----- {self.o_date} ----- {self.status}"

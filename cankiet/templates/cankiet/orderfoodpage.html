@@ -56,7 +56,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ item.item }}</h5>
                             <p class="card-text">₹{{ item.price }}</p>
-                            <form method="post" action="{% url 'start_payment' canteen.c_no %}">
+                            <form method="post" action="{% url 'cart' canteen.c_no %}">
                                 <div class="d-flex align-items-center">
                                 {% csrf_token %}
                                 {% comment %} <input type="checkbox" class="form-check-input me-3"> {% endcomment %}
